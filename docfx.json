@@ -1,0 +1,26 @@
+{
+  "metadata": [],
+  "build": {
+    "content": [
+      {
+        "files": ["**/*.{md,yml}"],
+        "exclude": ["_site/**"]
+      }
+    ],
+    "resource": [
+      {
+        "files": ["images/**"]
+      }
+    ],
+    "output": "_site",
+    "template": ["default", "modern"],
+    "globalMetadata": {
+      "_appTitle": "ARMA & PQM Documentation",
+      "_appName": "ARMA-PQM Docs",
+      "_appFooter": "Atolla Engineering",
+      "_enableSearch": true,
+      "_appLogoPath": "images/logo.svg",
+      "_appFaviconPath": "images/favicon.ico"
+    }
+  }
+}
