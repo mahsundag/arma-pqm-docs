@@ -23,7 +23,7 @@ services:
       - OAUTH2_PROXY_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
       - OAUTH2_PROXY_COOKIE_SECRET=${COOKIE_SECRET}
       - OAUTH2_PROXY_COOKIE_SECURE=true
-      - OAUTH2_PROXY_UPSTREAM=http://docfx:80
+      - OAUTH2_PROXY_UPSTREAM=http://docfx:80/
       - OAUTH2_PROXY_HTTP_ADDRESS=0.0.0.0:4180
       - OAUTH2_PROXY_REDIRECT_URL=https://docfx.atolla.dev/oauth2/callback
       - OAUTH2_PROXY_EMAIL_DOMAINS=atolla.com.tr
