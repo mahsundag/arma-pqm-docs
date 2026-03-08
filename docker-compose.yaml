@@ -3,6 +3,19 @@ services:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
     ports:
       - "4180:4180"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.docfx.rule=Host(`docfx.atolla.dev`)"
+      - "traefik.http.routers.docfx.entrypoints=https"
+      - "traefik.http.routers.docfx.tls=true"
+      - "traefik.http.routers.docfx.tls.certresolver=letsencrypt"
+      - "traefik.http.services.docfx.loadbalancer.server.port=4180"
+      - "traefik.http.routers.docfx-http.rule=Host(`docfx.atolla.dev`)"
+      - "traefik.http.routers.docfx-http.entrypoints=http"
+      - "traefik.http.routers.docfx-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      - coolify
     environment:
       - OAUTH2_PROXY_PROVIDER=oidc
       - OAUTH2_PROXY_OIDC_ISSUER_URL=https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0
@@ -32,4 +45,10 @@ services:
         - AZURE_DEVOPS_PAT=${AZURE_DEVOPS_PAT}
     expose:
       - "80"
+    networks:
+      - coolify
     restart: unless-stopped
+
+networks:
+  coolify:
+    external: true
