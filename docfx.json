@@ -4,12 +4,16 @@
     "content": [
       {
         "files": ["**/*.{md,yml}"],
-        "exclude": ["_site/**"]
+        "exclude": ["_site/**", "**/.git/**", "**/node_modules/**"]
       }
     ],
     "resource": [
       {
-        "files": ["images/**"]
+        "files": [
+          "images/**",
+          "images/pqm-wiki/**",
+          "images/arma-wiki/**"
+        ]
       }
     ],
     "output": "_site",

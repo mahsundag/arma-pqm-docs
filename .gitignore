@@ -3,3 +3,12 @@ obj/
 bin/
 .vs/
 *.user
+
+# Wiki content (generated at build time)
+arma/wiki/
+pqm/wiki/
+images/pqm-wiki/
+images/arma-wiki/
+
+# Environment
+.env

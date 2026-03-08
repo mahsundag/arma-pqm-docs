@@ -1,0 +1,35 @@
+services:
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
+    ports:
+      - "4180:4180"
+    environment:
+      - OAUTH2_PROXY_PROVIDER=oidc
+      - OAUTH2_PROXY_OIDC_ISSUER_URL=https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0
+      - OAUTH2_PROXY_CLIENT_ID=${AZURE_CLIENT_ID}
+      - OAUTH2_PROXY_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
+      - OAUTH2_PROXY_COOKIE_SECRET=${COOKIE_SECRET}
+      - OAUTH2_PROXY_COOKIE_SECURE=true
+      - OAUTH2_PROXY_UPSTREAM=http://docfx:80
+      - OAUTH2_PROXY_HTTP_ADDRESS=0.0.0.0:4180
+      - OAUTH2_PROXY_REDIRECT_URL=https://docfx.atolla.dev/oauth2/callback
+      - OAUTH2_PROXY_EMAIL_DOMAINS=atolla.com.tr
+      - OAUTH2_PROXY_SCOPE=openid email profile
+      - OAUTH2_PROXY_REVERSE_PROXY=true
+      - OAUTH2_PROXY_SET_XAUTHREQUEST=true
+      - OAUTH2_PROXY_PASS_ACCESS_TOKEN=false
+      - OAUTH2_PROXY_COOKIE_DOMAINS=docfx.atolla.dev
+      - OAUTH2_PROXY_SKIP_PROVIDER_BUTTON=true
+    depends_on:
+      - docfx
+    restart: unless-stopped
+
+  docfx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - AZURE_DEVOPS_PAT=${AZURE_DEVOPS_PAT}
+    expose:
+      - "80"
+    restart: unless-stopped
