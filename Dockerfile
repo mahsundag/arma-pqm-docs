@@ -10,12 +10,12 @@ COPY . .
 
 RUN chmod +x scripts/clone-wikis.sh && bash scripts/clone-wikis.sh
 RUN docfx build \
-    && echo "=== Favicon locations ===" \
-    && find _site -name "favicon*" -o -name "*.ico" 2>/dev/null || true \
-    && echo "=== Logo locations ===" \
-    && find _site -name "logo*" 2>/dev/null || true \
-    && echo "=== Favicon in HTML ===" \
-    && grep -r "favicon\|icon" _site/index.html 2>/dev/null | head -5 || true
+    && echo "=== Favicon files in _site ===" \
+    && find _site -name "favicon*" -o -name "*.ico" -o -name "*.svg" | head -20 \
+    && echo "=== link rel=icon in index.html ===" \
+    && grep -i "rel=.icon\|rel=.shortcut\|favicon" _site/index.html || true \
+    && echo "=== head section of index.html ===" \
+    && sed -n '/<head/,/<\/head>/p' _site/index.html | head -30 || true
 
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
