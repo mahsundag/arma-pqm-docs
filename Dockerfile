@@ -14,4 +14,7 @@ RUN docfx build
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /docs/_site /usr/share/nginx/html
+# Ensure logo and favicon are present even if docfx skips them
+COPY --from=build /docs/images/logo.svg /usr/share/nginx/html/images/logo.svg
+COPY --from=build /docs/images/favicon.ico /usr/share/nginx/html/images/favicon.ico
 EXPOSE 80
