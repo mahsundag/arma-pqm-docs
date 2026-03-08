@@ -6,16 +6,13 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 
 ARG AZURE_DEVOPS_PAT
 WORKDIR /docs
+
+# Cache buster - change this to force rebuild
+ARG CACHE_BUST=2
 COPY . .
 
 RUN chmod +x scripts/clone-wikis.sh && bash scripts/clone-wikis.sh
-RUN docfx build \
-    && echo "=== Favicon files in _site ===" \
-    && find _site -name "favicon*" -o -name "*.ico" -o -name "*.svg" | head -20 \
-    && echo "=== link rel=icon in index.html ===" \
-    && grep -i "rel=.icon\|rel=.shortcut\|favicon" _site/index.html || true \
-    && echo "=== head section of index.html ===" \
-    && sed -n '/<head/,/<\/head>/p' _site/index.html | head -30 || true
+RUN docfx build
 
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf

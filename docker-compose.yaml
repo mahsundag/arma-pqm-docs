@@ -43,6 +43,7 @@ services:
       dockerfile: Dockerfile
       args:
         - AZURE_DEVOPS_PAT=${AZURE_DEVOPS_PAT}
+        - CACHE_BUST=3
     expose:
       - "80"
     networks:
